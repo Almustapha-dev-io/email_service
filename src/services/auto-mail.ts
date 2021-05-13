@@ -1,6 +1,4 @@
-// Go into mail DB and fetch pending mails
-// Loop through result and send mail
-// on success, UPDATE mails table and INSERT sent mail to sent_mail_archived
+
 import Moment from 'moment';
 import db from '../util/db';
 import mailTransporter from '../util/mailer';
@@ -16,18 +14,15 @@ function getDateTime(): string {
 
 const dispatchMails = async () => {
     try {
-        let [rows] = await db.execute(getAllPendingMails);  // Fetch All Pending Mails    
-        let mails: IMail[] = Object.values(rows);   //  Get rows and store in memory
+        let [rows] = await db.execute(getAllPendingMails);
+        let mails: IMail[] = Object.values(rows);
 
-        if (mails.length === 0) return; // No pending mails return and wait for next cycle
+        if (mails.length === 0) return;
 
-        // Loop through mails
         for (let mail of mails) {
             let mailId = mail.mail_id;
             let sentDate = getDateTime();
-            console.log(mail.mail_id);
             
-            // SEND MAIL
             try {
                 await mailTransporter.sendMail({
                     to: mail.recipient_email,
@@ -40,10 +35,7 @@ const dispatchMails = async () => {
                 continue;
             }            
 
-            // UPDATE TABLE
             await db.execute(sendMail, [sentDate, mailId]);
-
-            // ARCHIVE MAIL
             await db.execute(archiveMail, [mailId]);
 
             console.log(`Email sent to ====> ${mail.recipient_email}`);
@@ -58,5 +50,5 @@ export const init = () => {
     dispatchMails();
     setInterval(() => {
         dispatchMails();
-    }, 1000 * 10);
+    }, interval);
 };

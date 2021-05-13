@@ -3,7 +3,7 @@ import sendgridTransport from 'nodemailer-sendgrid-transport';
 
 const transportOptions = {
     auth: {
-        api_key: '<Your API KEY>'
+        api_key: 'Your API KEY'
     }
 };
 
