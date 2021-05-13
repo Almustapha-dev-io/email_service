@@ -1,0 +1,4 @@
+{
+    "sendgridApiKey": "mailer_sendgridApiKey",
+    "dispatchEmail": "mailer_dispatchEmail"
+}

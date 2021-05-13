@@ -1,5 +1,7 @@
 
 import Moment from 'moment';
+import config from 'config';
+
 import db from '../util/db';
 import mailTransporter from '../util/mailer';
 import { getAllPendingMails, sendMail, archiveMail } from '../util/queries';
@@ -26,7 +28,7 @@ const dispatchMails = async () => {
             try {
                 await mailTransporter.sendMail({
                     to: mail.recipient_email,
-                    from: 'almustaphamuha98@gmail.com',
+                    from: config.get('dispatchEmail'),
                     subject: mail.subject,
                     html: `<p>${mail.mail_content}</p>`
                 });
