@@ -18,16 +18,14 @@ export const sendMail: string = `
 
 export const archiveMail: string = `
     INSERT INTO sent_mails_archived
-    VALUES (
-        SELECT 
-            mail_id,
-            email_ref,
-            subject,
-            mail_content,
-            recipient_email,
-            status,
-            sent_date
-        FROM mails
-        WHERE mail_id = ?
-    );
+    SELECT 
+        mail_id,
+        email_ref,
+        subject,
+        mail_content,
+        recipient_email AS recipient,
+        status,
+        sent_date
+    FROM mails
+    WHERE mail_id = ?;
 `;

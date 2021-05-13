@@ -1,7 +1,8 @@
-import db from './util/db';
-import { getAllMails } from './util/queries';
+import { init } from './services/auto-mail';
 
-db.execute(getAllMails).then(([r]) => {
-    const results = Object.values(r);
-    console.log(results[0]);
-});
+function run() {
+    console.log(`Email Service Started...`, '\n');
+    init();
+}
+
+run();

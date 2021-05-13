@@ -1,5 +1,5 @@
 
-export interface RES {
+export interface IMail {
     mail_id: string;
     subject: string;
     recipient_email: string;
