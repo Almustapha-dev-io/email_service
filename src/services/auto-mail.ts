@@ -13,10 +13,9 @@ function getDateTime(): string {
     return Moment(new Date()).format('YYYY-MM-DD hh:mm:ss');
 }
 
-
 const dispatchMails = async () => {
     try {
-        let [rows] = await db.execute(getAllPendingMails);
+        const [rows] = await db.execute(getAllPendingMails);
         let mails: IMail[] = Object.values(rows);
 
         if (mails.length === 0) return;
@@ -41,7 +40,7 @@ const dispatchMails = async () => {
             await db.execute(archiveMail, [mailId]);
 
             console.log(`Email sent to ====> ${mail.recipient_email}`);
-            console.log(`Mail archived!!`, '\n');
+            console.log('Mail archived!!\n');
         }
     } catch (err) {
         console.error(err);
@@ -49,6 +48,7 @@ const dispatchMails = async () => {
 };
 
 export const init = () => {
+    console.log('Email Service Started...\n');
     dispatchMails();
     setInterval(() => {
         dispatchMails();
